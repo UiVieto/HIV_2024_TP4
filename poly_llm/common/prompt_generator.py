@@ -14,20 +14,22 @@ class PromptGenerator:
     def generate_prompt(self, few_shot_examples: Optional[List[str]] = None):
         """Generate a prompt for the given function."""
         self._few_shot_examples = few_shot_examples
-        prompt = f"Generate tests for the function {self._func_name} \n " 
+        #prompt = f" I am testing a function which takes a string representing a file's name, and returns   \
+    #$'Yes' if the the file's name is valid, and returns 'No' otherwise.Generate diverse tests for the function {self._func_name} \n " 
+        prompt = ""
         if self._few_shot_examples:
 
             for example in self._few_shot_examples:
 
-                prompt += "Code \n"
+                prompt += "Input\n"
                 prompt += f"{self._lines}\n"
-                prompt += "Test \n"
+                prompt += "Example\n"
                 prompt += f"{example}\n"
 
         #print(f"Lines {self._lines}")   
-        prompt += "Code \n"
+        prompt += "Input\n"
         prompt += f"{self._lines}\n"
-        prompt += "Test \n"
+        prompt += "Example\n"
         prompt += f"def test_{self._func_name}():\n"
 
         final_prompt = ''.join(prompt)
