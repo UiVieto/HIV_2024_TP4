@@ -34,3 +34,13 @@ def test_separate_paren_groups():# pragma: no cover
         '()', '(())', '((()))', '(((())))'
     ]# pragma: no cover
 
+    # Tests zero shot générés par Salesforce/codet5-large-ntp-py
+    # assert separate_paren_groups('()') == ['()']  # pragma: no cover
+    # separate_paren_groups('()()') == ['()()']  # pragma: no cover
+    # separate_paren_groups('()(())') == ['()()()']  # pragma: no cover
+
+    # Tests few shot générés par Salesforce/codet5-large-ntp-py
+    #assert separate_paren_groups('(()()) ((())) () ((())()())') == ['(()())', '((()))', '()', '((())()())'] # pragma: no cover
+
+    # Test générés avec Qwen2.5-Coder-0.5B-Instruct
+    assert separate_paren_groups('(()()) ((())) () ((())()())') == ['(()())', '((()))', '()', '((())()())'] # pragma: no cover

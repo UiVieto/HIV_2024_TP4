@@ -32,7 +32,7 @@ class LLMTestGenerator(AbstractGenerator):
         input_ids = self.tokenizer.encode(prompt, return_tensors="pt")
         attention_mask = torch.ones_like(input_ids)
         pad_token_id = self.tokenizer.eos_token_id
-        output = self.model.generate(input_ids, attention_mask=attention_mask, pad_token_id=pad_token_id, max_length=520, num_return_sequences=1)
+        output = self.model.generate(input_ids, attention_mask=attention_mask, pad_token_id=pad_token_id, max_length=2000, num_return_sequences=1)
         generated_test_code = self.tokenizer.decode(output[0], skip_special_tokens=True)
         return generated_test_code
 

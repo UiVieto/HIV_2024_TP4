@@ -1,0 +1,15 @@
+def test_find_closest_elements(find_closest_elements):
+    assert find_closest_elements([1, 2, 3, 4, 5]) == (1, 2)
+    assert find_closest_elements([1, 2, 3, 4, 5, 6]) == (1, 3)
+    assert find_closest_elements([1, 2, 3, 4, 5, 6, 7]) == (1, 4)
+    assert find_closest_elements([1, 2, 3, 4, 5, 6, 7, 8]) == (1, 8)
+    assert find_closest_elements([1, 2, 3, 4, 5, 6, 7, 8, 9]) == (1, 9)
+    assert find_closest_elements([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == (1, 10)
+    assert find_closest_elements([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) == (1, 11)
+    assert find_closest_elements([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) == (1, 12)
+    assert find_closest_elements([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]) == (1, 13)
+    assert find_closest_elements([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]) == (1, 14)
+    assert find_closest_elements([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]) == (1, 15)
+    assert find_closest_elements([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]) == (1, 16)
+    assert find_closest_elements([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]) == (1, 17)
+    # assert find_closest_elements([1, 2, 3, 4, 5, 6, 7, 8

@@ -33,3 +33,29 @@ def test_file_name_check(): # pragma: no cover
     assert file_name_check("1example.dll") == 'No' # pragma: no cover
     assert file_name_check('.txt') == 'No'# pragma: no cover
 
+    # Tests zero shot générés par Salesforce/codet5-large-ntp-py
+    # assert file_name_check('file_name.txt') == 'Yes' # pragma: no cover
+    # assert file_name_check('file_name.exe') == 'Yes' # pragma: no cover
+    # assert file_name_check('file_name.dll') == 'Yes' # pragma: no cover
+    # file_name_check('file_name.txt.exe') == 'Yes' # pragma: no cover
+    # file_name_check('file_name.txt.dll') == 'Yes' # pragma: no cover
+    # file_name_check('file_name.exe.dll') == 'Yes' # pragma: no cover
+    # file_name_check('file_name.exe.txt') == 'Yes' # pragma: no cover
+    # file_name_check('file_name.exe.dll.txt') == 'Yes' # pragma: no cover
+    # file_name_check('file_name.exe.dll.exe.txt') == 'Yes' # pragma: no cover
+    # file_name_check('file_name.exe.dll.exe.exe.txt') == 'Yes' # pragma: no cover
+    # file_name_check('file_name.exe.dll.exe.exe.exe.txt') == 'Yes' # pragma: no cover
+    # file_name_check('file_name.exe.dll.exe.exe.exe.exe.txt') == 'Yes' # pragma: no cover
+    # file_name_check('file_name.exe.dll.exe.exe.exe.exe.exe.txt') == 'Yes' # pragma: no cover
+
+    # Tests few shot générés par Salesforce/codet5-large-ntp-py
+    # assert file_name_check("test.txt") == 'Yes' # pragma: no cover
+    # assert file_name_check("test.exe") == 'Yes' # pragma: no cover
+    # assert file_name_check("test.dll") == 'Yes' # pragma: no cover
+
+    # Test générés avec Qwen2.5-Coder-0.5B-Instruct
+    assert file_name_check("example.txt") == 'Yes' # pragma: no cover
+    assert file_name_check("example.exe") == 'Yes' # pragma: no cover
+    assert file_name_check("example.dll") == 'Yes' # pragma: no cover
+    assert file_name_check("example") == 'No' # pragma: no cover
+
