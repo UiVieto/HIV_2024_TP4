@@ -15,10 +15,93 @@ from poly_llm.common.abstract_executor import AbstractExecutor
 from poly_llm.common.prompt_generator import PromptGenerator
 from poly_llm.generators.llm_test_generator import LLMTestGenerator
 
-def get_coverage(test_function):
-    executor = AbstractExecutor(test_function)
-    
-    return executor._execute_input()
+from test_coverage import get_all_files_coverage
+
+PROGRAMS_UNDER_TEST = [
+    (closest_integer, 'closest_integer'),
+    (file_name_check, 'file_name_check'),
+    (find_closest_elements, 'find_closest_elements'),
+    (numerical_letter_grade, 'numerical_letter_grade'),
+    (separate_paren_groups, 'separate_paren_groups')
+]
+
+Q_2_3_TEST_INPUTS = [
+    ["""def test_closest_integer(): \n assert closest_integer("10") == 10 \n"""],
+    ["""def test_file_name_check(): \n assert file_name_check("example.txt") == 'Yes'\n"""],
+    ["""def test_find_closest_elements(): \n assert find_closest_elements([1.0, 2.0, 3.9, 4.0, 5.0, 2.2]) == (3.9, 4.0)\n"""],
+    ["""def test_numerical_letter_grade(): \n assert numerical_letter_grade([4.0, 3, 1.7, 2, 3.5]) == ['A+', 'B', 'C-', 'C', 'A-']\n"""],
+    ["""def test_separate_paren_groups(): \n assert separate_paren_groups('(()()) ((())) () ((())()())') == ['(()())', '((()))', '()', '((())()())']\n"""]
+]
+
+Q_2_4_TEST_INPUTS_2 = [
+    [
+        """def test_closest_integer(): \n assert closest_integer("0.2") == 0 \n""",
+        """def test_closest_integer(): \n assert closest_integer("-1.9") == -2 \n"""
+    ],
+    [
+        """def test_file_name_check(): \n assert file_name_check("example.txt") == 'Yes'\n"""
+        """def test_file_name_check(): \n assert file_name_check("example") == 'No'\n"""
+    ],
+    [
+        """def test_find_closest_elements(): \n assert find_closest_elements([1.0, 2.0, 3.9, 4.0, 5.0, 2.2]) == (3.9, 4.0)\n"""
+        """def test_find_closest_elements(): \n assert find_closest_elements([1.0, 1.0]) == (1.0, 1.0)\n"""
+    ],
+    [
+        """def test_numerical_letter_grade(): \n assert numerical_letter_grade([4.0, 3, 1.7, 2, 3.5]) == ['A+', 'B', 'C-', 'C', 'A-']\n""",
+        """def test_numerical_letter_grade(): \n assert numerical_letter_grade([0.75, 0.1, 0.0]) == ['D', 'D-', 'E']\n"""
+    ],
+    [
+        """def test_separate_paren_groups(): \n assert separate_paren_groups('(()()) ((())) () ((())()())') == ['(()())', '((()))', '()', '((())()())']\n"""
+        """def test_separate_paren_groups(): \n assert separate_paren_groups('((()))') == ['((()))']\n"""
+    ]
+]
+
+Q_2_4_TEST_INPUTS_1 = [
+    [
+        """def test_closest_integer(): \n assert closest_integer("0.5") == 1 \n""",
+        """def test_closest_integer(): \n assert closest_integer("-1.9") == -2 \n"""
+    ],
+    [
+        """def test_file_name_check(): \n assert file_name_check("example.txt") == 'Yes'\n"""
+        """def test_file_name_check(): \n assert file_name_check("fail.12") == 'No'\n"""
+    ],
+    [
+        """def test_find_closest_elements(): \n assert find_closest_elements([1.0, 2.0, 4.0, 5.0, 2.2]) == (2.0, 2.2)\n"""
+        """def test_find_closest_elements(): \n assert find_closest_elements([1.0, 1.0]) == (1.0, 1.0)\n"""
+    ],
+    [
+        """def test_numerical_letter_grade(): \n assert numerical_letter_grade([4.0, 3, 1.7, 2, 3.5]) == ['A+', 'B', 'C-', 'C', 'A-']\n""",
+        """def test_numerical_letter_grade(): \n assert numerical_letter_grade([4.0, 3, 1.7, 2, 3.5, 0.75, 0.1, 0.0]) == ['A+', 'B', 'C-', 'C', 'A-', 'D', 'D-', 'E']\n"""
+    ],
+    [
+        """def test_separate_paren_groups(): \n assert separate_paren_groups('(()()) ((())) ()') == ['(()())', '((()))', '()']\n"""
+        """def test_separate_paren_groups(): \n assert separate_paren_groups('() ((())) ()') == ['() ((())) ()']\n"""
+    ]
+]
+
+
+Q_2_4_TEST_INPUTS_3 = [
+    [
+        """def test_closest_integer(): \n assert closest_integer("0.0") == 0 \n""",
+        """def test_closest_integer(): \n assert closest_integer("-100.123124") == -100 \n"""
+    ],
+    [
+        """def test_file_name_check(): \n assert file_name_check("giubfvaewovbaw.dll") == 'Yes'\n"""
+        """def test_file_name_check(): \n assert file_name_check("wadawfsvwe.12") == 'No'\n"""
+    ],
+    [
+        """def test_find_closest_elements(): \n assert find_closest_elements([1.0, 2.0, 40.0, 5.0, 2.2]) == (2.0, 2.2)\n"""
+        """def test_find_closest_elements(): \n assert find_closest_elements([1.0, 1231.23, 2.0]) == (1.0, 2.0)\n"""
+    ],
+    [
+        """def test_numerical_letter_grade(): \n assert numerical_letter_grade([4.0, 3, 1.7]) == ['A+', 'B', 'C-']\n""",
+        """def test_numerical_letter_grade(): \n assert numerical_letter_grade([4.0, 3, 3.5, 0.75, 0.1, 0.0]) == ['A+', 'B', 'A-', 'D', 'D-', 'E']\n"""
+    ],
+    [
+        """def test_separate_paren_groups(): \n assert separate_paren_groups('(()()) ()') == ['(()())', '()']\n"""
+        """def test_separate_paren_groups(): \n assert separate_paren_groups('() ((())) ()') == ['() ((())) ()']\n"""
+    ]
+]
 
 def generate_inputs(module, tokenizer, model, output_file: str, inputs: list[str] | None=None):
     if not pathlib.Path(output_file).is_file():
@@ -34,26 +117,10 @@ def generate_inputs(module, tokenizer, model, output_file: str, inputs: list[str
     else:
         print(f'File {output_file} already exists: Skipping input generation.')
 
-def generate_coverage(module, output_file: str, test_name: str):
-    module_name = output_file.split(".")[0]
-    function_name = test_name
-
-    # Dynamically import the module
-    module = importlib.import_module(module_name)
-    function = getattr(module, function_name)
-
-    executor = AbstractExecutor(function)
-
-    return executor._execute_input(module)
-
 
 if __name__ == '__main__':
     # Génère les couvertures pour les tests pour chaque fichier
-    print(get_coverage(test_closest_integer))
-    print(get_coverage(test_file_name_check))
-    print(get_coverage(test_find_closest_elements))
-    print(get_coverage(test_numerical_letter_grade))
-    print(get_coverage(test_separate_paren_groups))
+    get_all_files_coverage()
 
     # Génère les inputs à ajouter aux fichiers
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -61,50 +128,37 @@ if __name__ == '__main__':
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = T5ForConditionalGeneration.from_pretrained(model_name).to(device)
 
-    print("Génération d'inputs zéro shot")
-    print("Zero Shot: file_name_check.....................................")
-    print(generate_inputs(file_name_check, tokenizer, model, 'z_llm_file_name_check.py', None))
+    print("Q2.2 - Génération d'inputs zéro shot")
+    for function, function_name in PROGRAMS_UNDER_TEST:
+        print(f"Zero Shot: {function_name}.....................................")
+        print(generate_inputs(function, tokenizer, model, f'zero_test_{function_name}.py', None))
 
-    print("Zero Shot: closest_integer.....................................")
-    print(generate_inputs(closest_integer, tokenizer, model, 'z_test_closest_integer.py', None))
+    print("Q2.3 - Génération d'inputs few shot")
+    for i, (function, function_name) in enumerate(PROGRAMS_UNDER_TEST):
+        print(f"Few Shot: {function_name}......................................")
+        generate_inputs(
+            function, tokenizer, model, f'few_test_{function_name}.py',
+            Q_2_3_TEST_INPUTS[i]    
+        )
 
-    print("Zero Shot: find_closest_elements...............................")
-    print(generate_inputs(find_closest_elements, tokenizer, model, 'z_test_find_closest_elements.py', None))
+    print("Q2.4 - Génération d'inputs few shot")
+    for i, (function, function_name) in enumerate(PROGRAMS_UNDER_TEST):
+        print(f"Few Shot: {function_name}......................................")
+        generate_inputs(
+            function, tokenizer, model, f'q241_few_test_{function_name}.py',
+            Q_2_4_TEST_INPUTS_1[i]    
+        )
 
-    print("Zero Shot: numerical_letter_grade..............................")
-    print(generate_inputs(numerical_letter_grade, tokenizer, model, 'z_test_numerical_letter_grade.py', None))
+    for i, (function, function_name) in enumerate(PROGRAMS_UNDER_TEST):
+        print(f"Few Shot: {function_name}......................................")
+        generate_inputs(
+            function, tokenizer, model, f'q242_few_test_{function_name}.py',
+            Q_2_4_TEST_INPUTS_2[i]    
+        )
 
-    print("Zero Shot: separate_paren_groups...............................")
-    print(generate_inputs(separate_paren_groups, tokenizer, model, 'z_test_separate_paren_groups.py', None))
-
-
-    print("Génération d'inputs few shot")
-    print("Few Shot: file_name_check......................................")
-    print(generate_inputs(
-        file_name_check, tokenizer, model, 'f_llm_file_name_check.py',
-        ["""def test_file_name_check(): \n assert file_name_check("example.txt") == 'Yes'\n"""]    
-    ))
-
-    print("Few Shot: closest_integer......................................")
-    print(generate_inputs(
-        closest_integer, tokenizer, model, 'f_test_closest_integer.py',
-        ["""def test_closest_integer(): \n assert closest_integer("10") == 10 \n"""]
-    ))
-
-    print("Few Shot: find_closest_elements................................")
-    print(generate_inputs(
-        find_closest_elements, tokenizer, model, 'f_test_find_closest_elements.py',
-        ["""def test_find_closest_elements(): \n assert find_closest_elements([1.0, 2.0, 3.9, 4.0, 5.0, 2.2]) == (3.9, 4.0)\n"""]        
-    ))
-
-    print("Few Shot: numerical_letter_grade...............................")
-    print(generate_inputs(
-        numerical_letter_grade, tokenizer, model, 'f_test_numerical_letter_grade.py',
-        ["""def test_numerical_letter_grade(): \n assert numerical_letter_grade([4.0, 3, 1.7, 2, 3.5]) == ['A+', 'B', 'C-', 'C', 'A-']\n"""]        
-    ))
-
-    print("Few Shot: separate_paren_groups................................")
-    print(generate_inputs(
-        separate_paren_groups, tokenizer, model, 'f_test_separate_paren_groups.py',
-        ["""def test_separate_paren_groups(): \n assert separate_paren_groups('(()()) ((())) () ((())()())') == ['(()())', '((()))', '()', '((())()())']\n"""]        
-    ))
+    for i, (function, function_name) in enumerate(PROGRAMS_UNDER_TEST):
+        print(f"Few Shot: {function_name}......................................")
+        generate_inputs(
+            function, tokenizer, model, f'q243_few_test_{function_name}.py',
+            Q_2_4_TEST_INPUTS_3[i]    
+        )

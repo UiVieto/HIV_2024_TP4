@@ -18,3 +18,6 @@ def test_file_name_check(file_name_check):
     assert file_name_check('file_name.exe.dll.exe.exe.exe.exe.exe.txt') == 'Yes'
     assert file_name_check('file_name.exe.dll.exe.exe.exe.exe.exe.txt') == 'Yes'
     assert file_name_check('file_name.exe.dll.exe.exe.exe.exe.exe.txt') == 'Yes'
+    assert file_name_check('file_name.exe.dll.exe.exe.exe.exe.exe.txt') == 'Yes'
+    assert file_name_check('file_name.exe.dll.exe.exe.exe.exe.exe.txt') == 'Yes'
+    assert file_name_check('file_name.exe.dll.exe.exe.exe.exe.exe

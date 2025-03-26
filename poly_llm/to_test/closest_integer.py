@@ -39,8 +39,16 @@ def test_closest_integer():# pragma: no cover
     # assert closest_integer("-14.5") == -15 # pragma: no cover
 
     # Tests few shot générés par Salesforce/codet5-large-ntp-py
-    # assert closest_integer("14.5") == 15 # pragma: no cover
-    # assert closest_integer("-14.5") == -15 # pragma: no cover
+    # assert closest_integer("10") == 10  # pragma: no cover
+
+    # Q2.4. Inputs 1 - Tests few shot générés par Salesforce/codet5-large-ntp-py
+    # assert closest_integer("-1.9") == -2  # pragma: no cover
+
+    # Q2.4. Inputs 2 - Tests few shot générés par Salesforce/codet5-large-ntp-py
+    # assert closest_integer("-1.9") == -2  # pragma: no cover
+
+    # Q2.4. Inputs 3 - Tests few shot générés par Salesforce/codet5-large-ntp-py
+    assert closest_integer("-100.123124") == -100  # pragma: no cover 
 
     # Test générés avec Qwen2.5-Coder-0.5B-Instruct
-    assert closest_integer("10") == 10 # pragma: no cover
+    # assert closest_integer("10") == 10 # pragma: no cover

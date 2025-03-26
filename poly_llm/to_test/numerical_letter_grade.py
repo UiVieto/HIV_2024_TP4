@@ -60,10 +60,19 @@ def test_numerical_letter_grade():# pragma: no cover
     assert numerical_letter_grade([1.2]) == ['D+']# pragma: no cover
 
     # Tests zero shot générés par Salesforce/codet5-large-ntp-py
-    # numerical_letter_grade([4.0, 3.7, 3.3, 3.0, 2.7, 2.3, 2.0, 1.7, 1.3, 1.0, 0.7, 0.3, 0.0, 0.0, 4.0]) == ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "E"]# pragma: no cover
+    # numerical_letter_grade([4.0, 3.7, 3.3, 3.0, 2.7, 2.3, 2.0, 1.7, 1.3, 1.0, 0.7, 0.3, 0.0, 0.0, 4.0]) == ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "E"]
 
     # Tests few shot générés par Salesforce/codet5-large-ntp-py
-    assert numerical_letter_grade([4.0, 3, 1.7, 2, 3.5]) == ['A+', 'B', 'C-', 'C', 'A-'] # pragma: no cover
+    # assert numerical_letter_grade([4.0, 3, 1.7, 2, 3.5]) == ['A+', 'B', 'C-', 'C', 'A-']  # pragma: no cover
+
+    # Q2.4. Inputs 1 - Tests few shot générés par Salesforce/codet5-large-ntp-py
+    # assert numerical_letter_grade([4.0, 3, 1.7, 2, 3.5, 0.75, 0.1, 0.0])  # pragma: no cover
+
+    # Q2.4. Inputs 2 - Tests few shot générés par Salesforce/codet5-large-ntp-py
+    # assert numerical_letter_grade([0.75, 0.1, 0.0]) == ['D', 'D-', 'E']  # pragma: no cover
+
+    # Q2.4. Inputs 3 - Tests few shot générés par Salesforce/codet5-large-ntp-py
+    assert numerical_letter_grade([4.0, 3, 3.5, 0.75, 0.1, 0.0]) == ['A+', 'B', 'A-', 'D', 'D-', 'E']  # pragma: no cover
 
     # Test générés avec Qwen2.5-Coder-0.5B-Instruct
-    assert numerical_letter_grade([4.0, 3, 1.7, 2, 3.5]) == ['A+', 'B', 'C-', 'C', 'A-'] # pragma: no cover
+    # assert numerical_letter_grade([4.0, 3, 1.7, 2, 3.5]) == ['A+', 'B', 'C-', 'C', 'A-'] # pragma: no cover
